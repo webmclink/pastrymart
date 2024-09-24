@@ -9,5 +9,20 @@
     "Chinese": "中国人",
     "Loading": "加载中",
     "Hello": "你好",
-    "Log Out": "登出"
+    "Log Out": "登出",
+    "Invoices": "发票",
+    "No results": "没有结果",
+    "Invoice number": "发票号码",
+    "Customer name": "客户名称",
+    "Address": "地址",
+    "Item code": "商品代码",
+    "Item name": "商品名称",
+    "Quantity": "数量",
+    "Price": "价格",
+    "Vat": "增值税",
+    "Total": "总计",
+    "Invoice detail": "发票详情",
+    "Signed": "已签署",
+    "Not Signed": "未签署",
+    "Back": "返回"
 }

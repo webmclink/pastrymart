@@ -12,8 +12,6 @@
         @auth
             @include('components.layouts.nav')
         @endauth
-        <div class="mt-20 max-w-screen-xl mx-auto p-4">
-            {{ $slot }}
-        </div>
+        {{ $slot }}
             </body>
 </html>

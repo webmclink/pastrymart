@@ -1,16 +1,21 @@
 <?php
 
 use App\Livewire\HomePage;
+use App\Livewire\ListInvoices;
+use App\Livewire\InvoiceDetail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogoutController;
-use App\Livewire\ListInvoices;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', HomePage::class)->name('login');
 });
 
 Route::middleware(['auth', 'localization'])->group(function () {
-    Route::get('/invoices', ListInvoices::class)->name('invoices');
+    Route::prefix('invoices')->group(function () {
+        Route::get('/', ListInvoices::class)->name('invoices')->lazy();
+    
+        Route::get('/{invoiceId}', InvoiceDetail::class)->name('invoice.detail')->lazy();
+    });
 
     Route::post('/logout', LogoutController::class)->name('logout');
 });

@@ -9,5 +9,21 @@
     "Chinese": "中国人",
     "Loading": "Loading",
     "Hello": "Hello",
-    "Log Out": "Log Out"
+    "Log Out": "Log Out",
+    "Invoices": "Invoices",
+    "No results": "No results",
+    "Invoice number": "Invoice number",
+    "Customer name": "Customer name",
+    "Address": "Address",
+    "Item code": "Item code",
+    "Item name": "Item name",
+    "Quantity": "Quantity",
+    "Price": "Price",
+    "Vat": "Vat",
+    "Total": "Total",
+    "Invoice detail": "Invoice detail",
+    "Signed": "Signed",
+    "Not Signed": "Not Signed",
+    "Back": "Back",
+    "Acknowledgement and E-Sign": "Acknowledgement and E-Sign"
 }
