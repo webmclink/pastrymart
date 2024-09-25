@@ -24,5 +24,9 @@
     "Invoice detail": "发票详情",
     "Signed": "已签署",
     "Not Signed": "未签署",
-    "Back": "返回"
+    "Back": "返回",
+    "Acknowledgement and E-Sign": "确认与电子签名",
+    "Acknowledgement": "确认",
+    "Recipient name": "收件人姓名",
+    "Submit": "提交"
 }

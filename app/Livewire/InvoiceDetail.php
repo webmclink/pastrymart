@@ -23,15 +23,17 @@ class InvoiceDetail extends Component
 
     public string $currency = '';
 
-    public bool $accept = false;
+    public bool $acknowledgement = false;
 
-    public string $recipientName = '';
+    public string $name = '';
 
     public string $email = '';
 
     public string $dateTime = '';
 
     public $sign;
+
+    public bool $signStatus = false;
 
     public function mount($invoiceId)
     {
@@ -53,6 +55,7 @@ class InvoiceDetail extends Component
         $this->vatSum = $invoice->VatSum;
         $this->docTotal = $invoice->DocTotal;
         $this->currency = $invoice->DocCurrency;
+        $this->signStatus = ($invoice->{config('udf.signature_status')} === 'SIGNED') ? true : false;
         foreach ($invoice->DocumentLines as $documentLine) {
             $this->documentLines[] = [
                 'itemNumber' => $documentLine['ItemCode'],
@@ -61,6 +64,18 @@ class InvoiceDetail extends Component
                 'price' => $documentLine['Price']
             ];
         }
+    }
+
+    protected $rules = [
+        'acknowledgement' => 'accepted',
+        'name' => 'required|string|max:50'
+    ];
+
+    public function store()
+    {
+        $this->validate();
+
+        dd('test');
     }
 
     public function render()

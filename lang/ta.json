@@ -24,5 +24,9 @@
     "Invoice detail": "விலைப்பட்டியல் விவரம்",
     "Signed": "கையெழுத்திடப்பட்டது",
     "Not Signed": "கையெழுத்திடப்படவில்லை",
-    "Back": "மீண்டும்"
+    "Back": "மீண்டும்",
+    "Acknowledgement and E-Sign": "உடன்பாடு மற்றும் மின் கையொப்பம்",
+    "Acknowledgement": "உடன்பாடு",
+    "Recipient name": "பெறுநரின் பெயர்",
+    "Submit": "சமர்ப்பிக்க"
 }
