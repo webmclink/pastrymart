@@ -1,6 +1,6 @@
 <div class="mt-20 max-w-screen-xl mx-auto p-4">
     <div class="flex items-center justify-between mb-4">
-        <h4 class="text-2xl font-bold leading-none text-gray-900 dark:text-white">{{ __("Invoices") }}</h4>
+        <h4 class="text-2xl font-bold leading-none text-gray-900 dark:text-white">{{ __("Orders") }}</h4>
     </div>
     <div role="status"
         class="w-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">

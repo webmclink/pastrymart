@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->redirectUsersTo(fn (Request $request) => route('invoices'));
+        $middleware->redirectUsersTo(fn (Request $request) => route('orders'));
         $middleware->alias([
             'localization' => LocalizationMiddleware::class
         ]);

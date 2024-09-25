@@ -10,9 +10,9 @@
     "Loading": "Loading",
     "Hello": "Hello",
     "Log Out": "Log Out",
-    "Invoices": "Invoices",
+    "Orders": "Orders",
     "No results": "No results",
-    "Invoice number": "Invoice number",
+    "Order number": "Order number",
     "Customer name": "Customer name",
     "Address": "Address",
     "Item code": "Item code",
@@ -21,12 +21,13 @@
     "Price": "Price",
     "Vat": "Vat",
     "Total": "Total",
-    "Invoice detail": "Invoice detail",
+    "Order detail": "Order detail",
     "Signed": "Signed",
     "Not Signed": "Not Signed",
     "Back": "Back",
     "Acknowledgement and E-Sign": "Acknowledgement and E-Sign",
     "Acknowledgement": "Acknowledgement",
     "Recipient name": "Recipient name",
-    "Submit": "Submit"
+    "Submit": "Submit",
+    "Clear": "Clear"
 }

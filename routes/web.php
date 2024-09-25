@@ -1,8 +1,8 @@
 <?php
 
 use App\Livewire\HomePage;
-use App\Livewire\ListInvoices;
-use App\Livewire\InvoiceDetail;
+use App\Livewire\ListOrders;
+use App\Livewire\OrderDetail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogoutController;
 
@@ -11,10 +11,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth', 'localization'])->group(function () {
-    Route::prefix('invoices')->group(function () {
-        Route::get('/', ListInvoices::class)->name('invoices')->lazy();
+    Route::prefix('orders')->group(function () {
+        Route::get('/', ListOrders::class)->name('orders')->lazy();
     
-        Route::get('/{invoiceId}', InvoiceDetail::class)->name('invoice.detail')->lazy();
+        Route::get('/{orderId}', OrderDetail::class)->name('order.detail')->lazy();
     });
 
     Route::post('/logout', LogoutController::class)->name('logout');

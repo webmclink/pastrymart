@@ -17,7 +17,7 @@ class HomePage extends Component
 
     public string $username = '';
     public string $password = '';
-    public bool $remember = true;
+    public bool $remember = false;
 
     public function mount()
     {
@@ -66,7 +66,7 @@ class HomePage extends Component
 
         Auth::loginUsingId($user->id, $this->remember);
 
-        return redirect()->intended('invoices');
+        return redirect()->intended('orders');
     }
 
     public function setLocale()
