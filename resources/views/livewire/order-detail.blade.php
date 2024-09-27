@@ -86,28 +86,29 @@
         @if ($signStatus)
             <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
                 <div class="flex flex-col pb-3">
-                    <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __("Recipient name") }}</dt>
+                    <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __('Recipient name') }}</dt>
                     <dd class="text-lg font-semibold">{{ $name }}</dd>
                 </div>
                 <div class="flex flex-col py-3">
-                    <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __("Date and time") }}</dt>
+                    <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __('Date and time') }}</dt>
                     <dd class="text-lg font-semibold">{{ $dateTime }}</dd>
                 </div>
                 <div class="flex flex-col pt-3">
-                    <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __("E-Signature") }}</dt>
+                    <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __('E-Signature') }}</dt>
                     <dd class="text-lg font-semibold">
-                        <img oncontextmenu="return false;" src="{{ asset('storage/signatures/PMSO_'. $docNum . '.png') }}" alt="E-Signature">
+                        <img oncontextmenu="return false;"
+                            src="{{ asset('storage/signatures/PMSO_' . $docNum . '.png') }}" alt="E-Signature">
                     </dd>
                 </div>
             </dl>
-        @else    
+        @else
             <form class="w-full mx-auto" wire:submit="store">
                 <div class="mb-5">
-                    <div class="flex items-center h-5">
+                    <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
                         <input id="acknowledgement" type="checkbox" wire:model.live="acknowledgement"
-                            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="acknowledgement"
-                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ __("Acknowledgement") }}</label>
+                            class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ __('I acknowledge') }}</label>
                     </div>
                     @error('acknowledgement')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
@@ -116,8 +117,9 @@
 
 
                 <div class="mb-5">
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __("Recipient name") }}</label>
-                    <input type="text" id="name" wire:model="name" {{ !$acknowledgement ? 'disabled' : '' }} 
+                    <label for="name"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Recipient name') }}</label>
+                    <input type="text" id="name" wire:model="name" {{ !$acknowledgement ? 'disabled' : '' }}
                         class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @error('name')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
@@ -125,14 +127,15 @@
                 </div>
 
                 <div class="mb-5">
-                    <label for="singature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __("Signature") }}</label>
+                    <label for="singature"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Signature') }}</label>
                     <x-signature-pad wire:model="signature" />
                     @error('signature')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <button wire:loading.attr="disabled"
+                <button wire:loading.attr="disabled" wire:offline.attr="disabled"
                     class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <span wire:loading.class="hidden" wire:target="store">
                         {{ __('Submit') }}

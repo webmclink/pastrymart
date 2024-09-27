@@ -26,8 +26,10 @@
     "Not Signed": "Not Signed",
     "Back": "Back",
     "Acknowledgement and E-Sign": "Acknowledgement and E-Sign",
-    "Acknowledgement": "Acknowledgement",
+    "I acknowledge": "I acknowledge",
     "Recipient name": "Recipient name",
     "Submit": "Submit",
-    "Clear": "Clear"
+    "Clear": "Clear",
+    "Date and time": "Date and time",
+    "E-Signature": "E-Signature"
 }

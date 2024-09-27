@@ -26,8 +26,10 @@
     "Not Signed": "கையெழுத்திடப்படவில்லை",
     "Back": "மீண்டும்",
     "Acknowledgement and E-Sign": "அங்கீகாரம் மற்றும் மின் கையொப்பம்",
-    "Acknowledgement": "அங்கீகாரம்",
+    "I acknowledge": "நான் ஒப்புக்கொள்கிறேன்",
     "Recipient name": "பெறுநர் பெயர்",
     "Submit": "சமர்ப்பிக்கவும்",
-    "Clear": "துடைத்துவிடு"
+    "Clear": "துடைத்துவிடு",
+    "Date and time": "தேதி மற்றும் நேரம்",
+    "E-Signature": "மின் கையெழுத்து"
 }

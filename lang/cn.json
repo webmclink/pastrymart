@@ -26,8 +26,10 @@
     "Not Signed": "未签名",
     "Back": "返回",
     "Acknowledgement and E-Sign": "确认及电子签名",
-    "Acknowledgement": "确认",
+    "I acknowledge": "我承认",
     "Recipient name": "收件人姓名",
     "Submit": "提交",
-    "Clear": "清除"
+    "Clear": "清除",
+    "Date and time": "日期和时间",
+    "E-Signature": "电子签名"
 }

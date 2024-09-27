@@ -27,6 +27,7 @@
         this.$refs.canvas.width = this.$refs.canvas.offsetWidth * this.ratio;
         this.$refs.canvas.height = this.$refs.canvas.offsetHeight * this.ratio;
         this.$refs.canvas.getContext('2d').scale(this.ratio, this.ratio);
+        this.signature = null;
         this.setBackground();
     },
     setBackground() {

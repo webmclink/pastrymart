@@ -1,6 +1,5 @@
 <div>
     <div class="mt-20 max-w-screen-xl mx-auto p-4">
-
         <div class="flex items-center justify-between mb-4">
             <h4 class="text-2xl font-bold leading-none text-gray-900 dark:text-white">{{ __('Orders') }}</h4>
             {{-- <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">

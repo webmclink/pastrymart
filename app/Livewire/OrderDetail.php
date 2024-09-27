@@ -40,17 +40,19 @@ class OrderDetail extends Component
 
     public function mount($orderId)
     {
-        $order = (new SAPService)->getOdataClient()
-            ->from("Orders")
-            ->where('DocEntry', (int) $orderId)
-            ->where(config('udf.deliver_by'), auth()->user()->sap_user_code)
-            ->first();
-        
-        if (!$order)
-        {
+        $cacheKey = 'order_' . $orderId . '_' . auth()->user()->sap_user_code;
+        $order = cache()->remember($cacheKey, 1, function () use ($orderId) {
+            return (new SAPService)->getOdataClient()
+                ->from("Orders")
+                ->where('DocEntry', (int) $orderId)
+                ->where(config('udf.deliver_by'), auth()->user()->sap_user_code)
+                ->first();
+        });
+
+        if (!$order) {
             abort(404);
         }
-        // dd($order);
+
         $this->docEntry = $order->DocEntry;
         $this->docNum = $order->DocNum;
         $this->customerName = $order->CardName;
@@ -70,6 +72,7 @@ class OrderDetail extends Component
             ];
         }
     }
+
 
     protected $rules = [
         'acknowledgement' => 'accepted',
@@ -93,6 +96,8 @@ class OrderDetail extends Component
                 config('udf.signed_image') => asset('storage/signatures/'. $fileName),
                 config('udf.signature_status') => "SIGNED",
             ]);
+
+        return redirect()->route('order.detail', ['orderId' => $this->docEntry]);
     }
 
     public function render()
