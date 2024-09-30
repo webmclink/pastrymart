@@ -4,8 +4,10 @@ namespace App\Livewire;
 
 use Carbon\Carbon;
 use Livewire\Component;
+use App\Jobs\GeneratePDF;
 use Illuminate\Support\Str;
 use App\Services\SAPService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class OrderDetail extends Component
@@ -13,6 +15,8 @@ class OrderDetail extends Component
     public int $docEntry;
 
     public string $docNum = '';
+
+    public string $cardCode = '';
 
     public string $customerName = '';
 
@@ -50,9 +54,10 @@ class OrderDetail extends Component
         if (!$order) {
             abort(404);
         }
-
+        // dd($order);
         $this->docEntry = $order->DocEntry;
         $this->docNum = $order->DocNum;
+        $this->cardCode = $order->CardCode;
         $this->customerName = $order->CardName;
         $this->address = $order->Address;
         $this->vatSum = $order->VatSum;
@@ -80,21 +85,28 @@ class OrderDetail extends Component
     public function store()
     {
         $this->validate();
-        
-        $fileName = "PMSO_{$this->docNum}.png";
-        
-        Storage::disk('public')->put("signatures/{$fileName}", base64_decode(Str::of($this->signature)->after(',')));
 
-        (new SAPService)->getOdataClient()->from("Orders")
-            ->whereKey((int) $this->docEntry)
-            ->patch([
-                config('udf.signed_name') => $this->name,
-                config('udf.signed_date') => Carbon::now()->format('Y-m-d h:i:s'),
-                config('udf.signed_image') => asset('storage/signatures/'. $fileName),
-                config('udf.signature_status') => "SIGNED",
-            ]);
-
-        return redirect()->route('order.detail', ['orderId' => $this->docEntry]);
+        try {
+            $fileName = "PMSO_{$this->docNum}.png";
+        
+            Storage::disk('public')->put("signatures/{$fileName}", base64_decode(Str::of($this->signature)->after(',')));
+    
+            (new SAPService)->getOdataClient()->from("Orders")
+                ->whereKey((int) $this->docEntry)
+                ->patch([
+                    config('udf.signed_name') => $this->name,
+                    config('udf.signed_date') => Carbon::now()->format('Y-m-d h:i:s'),
+                    config('udf.signed_image') => asset('storage/signatures/'. $fileName),
+                    config('udf.signature_status') => "SIGNED",
+                ]);
+    
+            //generate the pdf and send to the customer
+            GeneratePDF::dispatch($this->docEntry);
+    
+            return redirect()->route('order.detail', ['orderId' => $this->docEntry]);
+        } catch (\Exception $e) {
+            Log::error('Error updating SAP B1: ' . $e->getMessage());
+        }
     }
 
     public function render()

@@ -22,5 +22,5 @@ Route::middleware(['auth', 'localization'])->group(function () {
 
 
 Route::get('/test', function () {
-    return view('pdf.sales-order');
+    dd(public_path('/storage/signatures/test.png'));
 });

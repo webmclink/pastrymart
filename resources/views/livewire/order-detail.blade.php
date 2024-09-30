@@ -65,7 +65,7 @@
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td colspan="3"></td>
                         <td class="font-medium text-gray-900 px-6 py-4">
-                            {{ __('Vat') }}: {{ $currency }} {{ number_format($vatSum, 2) }}
+                            {{ __('GST') }}: {{ $currency }} {{ number_format($vatSum, 2) }}
                         </td>
                     </tr>
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
