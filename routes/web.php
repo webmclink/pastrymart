@@ -19,3 +19,8 @@ Route::middleware(['auth', 'localization'])->group(function () {
 
     Route::post('/logout', LogoutController::class)->name('logout');
 });
+
+
+Route::get('/test', function () {
+    return view('pdf.sales-order');
+});
