@@ -12,17 +12,12 @@ class ListOrders extends Component
 
     public function mount()
     {
-        $cacheKey = 'orders_' . auth()->user()->sap_user_code;
-        $cacheDuration = 1; // Cache for 60 minutes
-
-        $orders = Cache::remember($cacheKey, $cacheDuration, function () {
-            return (new SAPService)->getOdataClient()
-                ->from('Orders')
-                ->where(config('udf.deliver_by'), auth()->user()->sap_user_code)
-                ->where(config('udf.send_for_signature'), 'Y')
-                ->order('DocEntry', 'desc')
-                ->get();
-        });
+        $orders = (new SAPService)->getOdataClient()
+        ->from('Orders')
+        ->where(config('udf.deliver_by'), auth()->user()->sap_user_code)
+        ->where(config('udf.send_for_signature'), 'Y')
+        ->order('DocEntry', 'desc')
+        ->get();
 
         foreach ($orders as $order) {
             $this->orders[] = [

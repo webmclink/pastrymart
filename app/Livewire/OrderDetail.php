@@ -40,14 +40,12 @@ class OrderDetail extends Component
 
     public function mount($orderId)
     {
-        $cacheKey = 'order_' . $orderId . '_' . auth()->user()->sap_user_code;
-        $order = cache()->remember($cacheKey, 1, function () use ($orderId) {
-            return (new SAPService)->getOdataClient()
-                ->from("Orders")
-                ->where('DocEntry', (int) $orderId)
-                ->where(config('udf.deliver_by'), auth()->user()->sap_user_code)
-                ->first();
-        });
+        $order = (new SAPService)->getOdataClient()
+            ->from("Orders")
+            ->where('DocEntry', (int) $orderId)
+            ->where(config('udf.deliver_by'), auth()->user()->sap_user_code)
+            ->order('DocEntry', 'desc')
+            ->first();
 
         if (!$order) {
             abort(404);
@@ -72,7 +70,6 @@ class OrderDetail extends Component
             ];
         }
     }
-
 
     protected $rules = [
         'acknowledgement' => 'accepted',
