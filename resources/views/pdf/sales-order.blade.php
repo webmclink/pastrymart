@@ -131,7 +131,7 @@
                     <th>CUSTOMER NO.</th>
                     <th>P.O NO.</th>
                     <th>D.O NO.</th>
-                    <th>SALES EMPLOYEE</th>
+                    <th>S.E</th>
                     <th>TERMS</th>
                 </tr>
             </thead>
