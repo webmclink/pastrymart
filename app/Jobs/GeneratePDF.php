@@ -40,6 +40,10 @@ class GeneratePDF implements ShouldQueue
             ->from("BusinessPartners")
             ->find($order->CardCode);
 
+        $salesPerson = (new SAPService)->getOdataClient()
+            ->from("SalesPersons")
+            ->find($order->SalesPersonCode);
+
         $paymentTerm = (new SAPService)->getOdataClient()
             ->from("PaymentTermsTypes")
             ->where('GroupNumber', (int) $bp->PayTermsGrpCode)
@@ -48,6 +52,7 @@ class GeneratePDF implements ShouldQueue
         $pdf = Pdf::loadView('pdf.sales-order', [
             'order' => $order,
             'bp' => $bp,
+            'salesPerson' => $salesPerson,
             'paymentTerm' => $paymentTerm,
             'logo' => public_path('pastrymart-logo.png'),
             'accreditation' => public_path('accreditation.jpg'),

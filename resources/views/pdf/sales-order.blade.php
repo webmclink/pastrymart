@@ -85,7 +85,7 @@
         <table class="company-info">
             <tr>
                 <td>
-                    <img width="150px;" height="50px;" src="{{ $logo }}" alt="logo">
+                    <img width="150px;" height="69px;" src="{{ $logo }}" alt="logo">
                 </td>
                 <td>
                     <strong>PASTRY MART PTE LTD</strong><br>
@@ -113,12 +113,12 @@
             <tr>
                 <td>
                     <strong>BILL TO:</strong><br>
-                    {{ $bp->ContactPerson }}
+                    {{ $bp->ContactPerson }} <br>
                     {!! $order->Address !!}
                 </td>
                 <td>
                     <strong>DELIVER TO:</strong><br>
-                    {{ $bp->ContactPerson }}
+                    {{ $bp->ContactPerson }} <br>
                     {!! $order->Address !!}
                 </td>
             </tr>
@@ -131,6 +131,7 @@
                     <th>CUSTOMER NO.</th>
                     <th>P.O NO.</th>
                     <th>D.O NO.</th>
+                    <th>SALES EMPLOYEE</th>
                     <th>TERMS</th>
                 </tr>
             </thead>
@@ -139,7 +140,8 @@
                     <td>{{ $bp->CardCode }}</td>
                     <td></td>
                     <td></td>
-                    <td>{{ $paymentTerm->PaymentTermsGroupName }}</td>
+                    <td>{{ $salesPerson->SalesEmployeeName }}</td>
+                    <td>{{ $paymentTerm->PaymentTermsGroupName ?? '' }}</td>
                 </tr>
             </tbody>
         </table>

@@ -38,9 +38,15 @@ class OrderDetail extends Component
 
     public string $dateTime = '';
 
-    public $signature = null;
+    public string $signature = '';
 
     public bool $signStatus = false;
+
+    public bool $showPrices = true;
+
+    public string $remarks = '';
+
+    public string $paymentTerm = '';
 
     public function mount($orderId)
     {
@@ -55,6 +61,15 @@ class OrderDetail extends Component
             abort(404);
         }
         // dd($order);
+        $bp = (new SAPService)->getOdataClient()
+        ->from("BusinessPartners")
+        ->find($order->CardCode);
+
+        $paymentTerm = (new SAPService)->getOdataClient()
+            ->from("PaymentTermsTypes")
+            ->where('GroupNumber', (int) $bp->PayTermsGrpCode)
+            ->first();
+
         $this->docEntry = $order->DocEntry;
         $this->docNum = $order->DocNum;
         $this->cardCode = $order->CardCode;
@@ -66,6 +81,9 @@ class OrderDetail extends Component
         $this->signStatus = ($order->{config('udf.signature_status')} === 'SIGNED') ? true : false;
         $this->name = $order->{config('udf.signed_name')} ?? '';
         $this->dateTime = $order->{config('udf.signed_date')} ?? '';
+        $this->showPrices = ($order->{config('udf.show_prices')} === 'Y') ? true : false;
+        $this->paymentTerm = $paymentTerm->PaymentTermsGroupName ?? '';
+        $this->remarks = $order->{config('udf.order_remarks')} ?? '';
         foreach ($order->DocumentLines as $documentLine) {
             $this->documentLines[] = [
                 'itemNumber' => $documentLine['ItemCode'],
@@ -79,7 +97,7 @@ class OrderDetail extends Component
     protected $rules = [
         'acknowledgement' => 'accepted',
         'name' => 'required|string|max:50',
-        'signature' => 'required'
+        'signature' => 'required|string'
     ];
 
     public function store()
@@ -98,6 +116,7 @@ class OrderDetail extends Component
                     config('udf.signed_date') => Carbon::now()->format('Y-m-d h:i:s'),
                     config('udf.signed_image') => asset('storage/signatures/'. $fileName),
                     config('udf.signature_status') => "SIGNED",
+                    config('udf.order_remarks') => $this->remarks,
                 ]);
     
             //generate the pdf and send to the customer

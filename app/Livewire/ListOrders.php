@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Services\SAPService;
-use Illuminate\Support\Facades\Cache;
 
 class ListOrders extends Component
 {
@@ -13,11 +12,11 @@ class ListOrders extends Component
     public function mount()
     {
         $orders = (new SAPService)->getOdataClient()
-        ->from('Orders')
-        ->where(config('udf.deliver_by'), auth()->user()->sap_user_code)
-        ->where(config('udf.send_for_signature'), 'Y')
-        ->order('DocEntry', 'desc')
-        ->get();
+            ->from('Orders')
+            ->where(config('udf.deliver_by'), auth()->user()->sap_user_code)
+            ->where(config('udf.send_for_signature'), 'Y')
+            ->order('DocEntry', 'desc')
+            ->get();
 
         foreach ($orders as $order) {
             $this->orders[] = [
@@ -26,6 +25,7 @@ class ListOrders extends Component
                 'cardName' => $order->CardName,
                 'signatureStatus' => $order->{config('udf.signature_status')},
                 'shipTo' => $order->Address,
+                'listRemarks' => $order->{config('udf.list_remarks')},
             ];
         }
     }

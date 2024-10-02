@@ -21,7 +21,23 @@
             </div>
             <div class="flex flex-col pt-3">
                 <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __('Address') }}</dt>
-                <dd class="text-lg font-semibold">{{ $address }}</dd>
+                <dd class="text-lg font-semibold">
+                    <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline flex items-center space-x-2"
+                        href="https://www.google.com/maps?q={{ urlencode($address) }}" target="_blank">
+                        {{ $address }}
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M18 14v4.833A1.166 1.166 0 0 1 16.833 20H5.167A1.167 1.167 0 0 1 4 18.833V7.167A1.166 1.166 0 0 1 5.167 6h4.618m4.447-2H20v5.768m-7.889 2.121 7.778-7.778" />
+                        </svg>
+                    </a>
+
+                </dd>
+            </div>
+            <div class="flex flex-col pt-3">
+                <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __('Payment terms') }}</dt>
+                <dd class="text-lg font-semibold">{{ $paymentTerm }}</dd>
             </div>
         </dl>
 
@@ -29,51 +45,52 @@
 
         <div class="relative overflow-x-auto mt-6">
             <table class="w-full text-md text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead class="text-md text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="py-3">
-                            {{ __('Item code') }}
-                        </th>
-                        <th scope="col" class="px-6 py-3">
                             {{ __('Item name') }}
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 whitespace-nowrap">
                             {{ __('Quantity') }}
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            {{ __('Price') }}
-                        </th>
+                        @if ($showPrices)
+                            <th scope="col" class="px-6 py-3">
+                                {{ __('Price') }}
+                            </th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($documentLines as $documentLine)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" class="py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $documentLine['itemNumber'] }}
-                            </th>
-                            <td class="px-6 py-4">
+                            <th scope="row" class="py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $documentLine['itemDescription'] }}
-                            </td>
-                            <td class="px-6 py-4">
+                            </th>
+                            <td class="px-6 py-4 whitespace-nowrap">
                                 {{ $documentLine['qty'] }}
                             </td>
-                            <td class="px-6 py-4">
-                                {{ $currency }} {{ number_format($documentLine['price'], 2) }}
-                            </td>
+                            @if ($showPrices)
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $currency }} {{ number_format($documentLine['price'], 2) }}
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td colspan="3"></td>
-                        <td class="font-medium text-gray-900 px-6 py-4">
-                            {{ __('GST') }}: {{ $currency }} {{ number_format($vatSum, 2) }}
-                        </td>
-                    </tr>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td colspan="3"></td>
-                        <td class="text-xl text-gray-900 px-6 py-4">
-                            {{ __('Total') }}: {{ $currency }} {{ number_format($docTotal, 2) }}
-                        </td>
-                    </tr>
+
+                    @if ($showPrices)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td colspan="2"></td>
+                            <td class="font-medium text-gray-900 px-6 py-4 whitespace-nowrap">
+                                {{ __('GST') }}: {{ $currency }} {{ number_format($vatSum, 2) }}
+                            </td>
+                        </tr>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td colspan="2"></td>
+                            <td class="text-xl text-gray-900 px-6 py-4 whitespace-nowrap">
+                                {{ __('Total') }}: {{ $currency }} {{ number_format($docTotal, 2) }}
+                            </td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -99,6 +116,10 @@
                         <img oncontextmenu="return false;"
                             src="{{ asset('storage/signatures/PMSO_' . $docNum . '.png') }}" alt="E-Signature">
                     </dd>
+                </div>
+                <div class="flex flex-col py-3">
+                    <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{ __('Remarks') }}</dt>
+                    <dd class="text-lg font-semibold">{{ $remarks }}</dd>
                 </div>
             </dl>
         @else
@@ -131,6 +152,16 @@
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Signature') }}</label>
                     <x-signature-pad wire:model="signature" />
                     @error('signature')
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-5">
+                    <label for="remarks"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Remarks') }}</label>
+                    <input type="text" id="remarks" wire:model="remarks"
+                        class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @error('remarks')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>

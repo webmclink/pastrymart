@@ -16,6 +16,10 @@
                             <h3 class="text-lg font-bold text-gray-900">{{ $order['cardName'] }}</h3>
                             <p class="text-sm text-gray-600">{{ $order['shipTo'] }}</p>
                             <p class="text-sm text-gray-500">No.{{ $order['docNum'] }}</p>
+                            @if ($order['listRemarks'] != null or $order['listRemarks'] != '')
+                                <span
+                                    class="bg-yellow-100 text-yellow-800 text-xs font-xs me-2 px-0.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{ $order['listRemarks'] }}</span>
+                            @endif
                         </div>
                         @if ($order['signatureStatus'] === 'SIGNED')
                             <span

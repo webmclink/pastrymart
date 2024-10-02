@@ -6,7 +6,7 @@
     "Remember me": "Remember me",
     "Sign in": "Sign in",
     "Tamil": "தமிழ்",
-    "Chinese": "中国人",
+    "Chinese": "中文",
     "Loading": "Loading",
     "Hello": "Hello",
     "Log Out": "Log Out",
@@ -31,5 +31,7 @@
     "Submit": "Submit",
     "Clear": "Clear",
     "Date and time": "Date and time",
-    "E-Signature": "E-Signature"
+    "E-Signature": "E-Signature",
+    "Remarks": "Remarks",
+    "Payment terms": "Payment terms"
 }

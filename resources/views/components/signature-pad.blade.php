@@ -3,6 +3,7 @@
     signaturePad: null,
     signature: @entangle($attributes->get('wire:model')),
     ratio: null,
+    savedSignature: null, // Holds the signature before resize
     init() {
         this.resizeCanvas();
         this.signaturePad = new SignaturePad(this.$refs.canvas);
@@ -23,12 +24,21 @@
         this.setBackground();
     },
     resizeCanvas() {
+        // Ensure that signaturePad is initialized before accessing it
+        if (this.signaturePad && !this.signaturePad.isEmpty()) {
+            this.savedSignature = this.getDataUrlWithBackground();
+        }
+
         this.ratio = Math.max(window.devicePixelRatio || 1, 1);
         this.$refs.canvas.width = this.$refs.canvas.offsetWidth * this.ratio;
         this.$refs.canvas.height = this.$refs.canvas.offsetHeight * this.ratio;
         this.$refs.canvas.getContext('2d').scale(this.ratio, this.ratio);
-        this.signature = null;
         this.setBackground();
+
+        // Redraw the saved signature after resizing
+        if (this.savedSignature) {
+            this.signaturePad.fromDataURL(this.savedSignature, { ratio: this.ratio });
+        }
     },
     setBackground() {
         const ctx = this.$refs.canvas.getContext('2d');
@@ -54,17 +64,14 @@
         
         return tempCanvas.toDataURL('image/png'); // Return the image with background
     }
-}" @resize.window="resizeCanvas">
+}" @resize.window="resizeCanvas" style="height: 200px;">
 
     <canvas x-ref="canvas" class="w-full h-full border-2 border-gray-300 border-dashed rounded-md"></canvas>
 
-    <div class="flex mt-2 space-x-2">
+    <div class="flex mt-2 space-x-2 justify-end">
         <a href="#" x-on:click.prevent="clear()" class="text-sm font-medium text-gray-700 underline">
             {{ __("Clear") }}
         </a>
-        {{-- <a href="#" x-on:click.prevent="save()" class="text-sm font-medium text-gray-700 underline">
-            Save
-        </a> --}}
 
         <span x-data="{
             open: false,
