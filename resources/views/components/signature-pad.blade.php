@@ -21,6 +21,7 @@
     clear() {
         this.signaturePad.clear();
         this.signature = null;
+        this.savedSignature = null;
         this.setBackground();
     },
     resizeCanvas() {
