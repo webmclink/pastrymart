@@ -65,7 +65,7 @@
         
         return tempCanvas.toDataURL('image/png'); // Return the image with background
     }
-}" @resize.window="resizeCanvas" style="height: 200px;">
+}" @resize.window="resizeCanvas" style="height: 150px;">
 
     <canvas x-ref="canvas" class="w-full h-full border-2 border-gray-300 border-dashed rounded-md"></canvas>
 
