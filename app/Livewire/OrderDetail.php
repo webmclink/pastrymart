@@ -20,6 +20,8 @@ class OrderDetail extends Component
 
     public string $customerName = '';
 
+    public string $customerReference = '';
+
     public string $address = '';
 
     public array $documentLines = [];
@@ -74,7 +76,15 @@ class OrderDetail extends Component
         $this->docNum = $order->DocNum;
         $this->cardCode = $order->CardCode;
         $this->customerName = $order->CardName;
-        $this->address = $order->Address;
+        $this->customerReference = $order->NumAtCard ?? '';
+
+        $address = '';
+        $shipToAddress = $order->AddressExtension;
+        $shipToBlock = $shipToAddress['ShipToBlock'] ?? '';
+        $shipToStreet = $shipToAddress['ShipToStreet'] ?? '';
+        $shipToPostal = $shipToAddress['ShipToZipCode'] ?? '';
+        $address .= $shipToBlock . "\n" . $shipToStreet . "\n" . 'Singapore-'. $shipToPostal;
+        $this->address = $address;
         $this->vatSum = $order->VatSum;
         $this->docTotal = $order->DocTotal;
         $this->currency = $order->DocCurrency;
@@ -89,6 +99,7 @@ class OrderDetail extends Component
                 'itemNumber' => $documentLine['ItemCode'],
                 'itemDescription' => $documentLine['ItemDescription'],
                 'qty' => $documentLine['Quantity'],
+                'uomCode' => $documentLine['UoMCode'],
                 'price' => $documentLine['Price']
             ];
         }

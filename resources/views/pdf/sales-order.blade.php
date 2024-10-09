@@ -72,8 +72,19 @@
             text-align: left;
         }
 
-        .qr-code {
-            width: 100%;
+        /* Specific column width adjustments */
+        .customer-no {
+            white-space: nowrap;
+        }
+
+        .product-info th.po-no {
+            width: 200px;
+            /* Increase width of P.O column */
+        }
+
+        .product-info th.terms {
+            width: 100px;
+            /* Reduce width of Terms column */
         }
     </style>
 </head>
@@ -114,12 +125,16 @@
                 <td>
                     <strong>BILL TO:</strong><br>
                     {{ $bp->ContactPerson }} <br>
-                    {!! $order->Address !!}
+                    {{ $order->AddressExtension['BillToBlock'] ?? '' }} <br>
+                    {{ $order->AddressExtension['BillToStreet'] ?? '' }} <br>
+                    Singapore-{{ $order->AddressExtension['BillToZipCode'] ?? '' }}
                 </td>
                 <td>
                     <strong>DELIVER TO:</strong><br>
                     {{ $bp->ContactPerson }} <br>
-                    {!! $order->Address !!}
+                    {{ $order->AddressExtension['ShipToBlock'] ?? '' }} <br>
+                    {{ $order->AddressExtension['ShipToStreet'] ?? '' }} <br>
+                    Singapore-{{ $order->AddressExtension['ShipToZipCode'] ?? '' }}
                 </td>
             </tr>
         </table>
@@ -128,17 +143,17 @@
         <table class="product-info">
             <thead>
                 <tr>
-                    <th>CUSTOMER NO.</th>
-                    <th>P.O NO.</th>
+                    <th class="customer-no">CUSTOMER NO.</th>
+                    <th class="po-no">P.O NO.</th>
                     <th>D.O NO.</th>
                     <th>S.E</th>
-                    <th>TERMS</th>
+                    <th class="terms">TERMS</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ $bp->CardCode }}</td>
-                    <td></td>
+                    <td>{{ $order->NumAtCard }}</td>
                     <td></td>
                     <td>{{ $salesPerson->SalesEmployeeName }}</td>
                     <td>{{ $paymentTerm->PaymentTermsGroupName ?? '' }}</td>
@@ -190,9 +205,9 @@
         <div class="footer">
             <p>GOODS SOLD ARE NOT RETURNABLE & EXCHANGEABLE</p>
             <p>RECEIVED IN GOOD ORDER AND CONDITION.</p>
-            <p><img class="qr-code" src="{{ $esign }}"
-                    alt="E-Signature"></p>
+            <p><img width="150px" height="100px;" src="{{ $esign }}" alt="E-Signature"></p>
             <p>NAME: {{ $order->{config('udf.signed_name')} }}</p>
+            <p>REMARKS: {{ $order->{config('udf.order_remarks')} }}</p>
             <hr>
             <strong>CUSTOMER'S SIGNATURE</strong>
         </div>

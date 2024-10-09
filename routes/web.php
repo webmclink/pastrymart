@@ -21,6 +21,6 @@ Route::middleware(['auth', 'localization'])->group(function () {
 });
 
 
-Route::get('/test', function () {
-    dd(public_path('/storage/signatures/test.png'));
+Route::get('/test-pdf-layout', function () {
+    //
 });
